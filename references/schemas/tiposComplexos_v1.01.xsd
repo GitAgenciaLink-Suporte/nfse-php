@@ -788,6 +788,11 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element minOccurs="0" name="finNFSe" type="TSRTCFinNFSe">
+        <xs:annotation>
+          <xs:documentation>Indicador da finalidade da emissão de NFS-e (NT 009): 0 - regular; 1 - crédito; 2 - débito</xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element minOccurs="0" name="chNFSeRej" type="TSChaveNFSe">
         <xs:annotation>
           <xs:documentation>
@@ -1341,11 +1346,6 @@
           <xs:documentation>Código de tributação municipal do ISSQN</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="xDescServ" type="TSDesc2000">
-        <xs:annotation>
-          <xs:documentation>Descrição completa do serviço prestado</xs:documentation>
-        </xs:annotation>
-      </xs:element>
       <xs:element name="cNBS" type="TSCodNBS" minOccurs="0">
         <xs:annotation>
           <xs:documentation>Código NBS correspondente ao serviço prestado, seguindo a versão 2.0, conforme Anexo B</xs:documentation>
@@ -1356,6 +1356,11 @@
           <xs:documentation>
             Código interno do contribuinte
           </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="xDescServ" type="TSDesc2000">
+        <xs:annotation>
+          <xs:documentation>Descrição completa do serviço prestado</xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -2206,13 +2211,6 @@
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DECLARADAS REFERENTES A IBS/CBS-->
   <xs:complexType name="TCRTCInfoIBSCBS">
     <xs:sequence>
-      <xs:element name="finNFSe" type="TSRTCFinNFSe">
-        <xs:annotation>
-          <xs:documentation>
-            Indicador da finalidade da emissão de NFS-e
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
       <xs:element name="indFinal" type="TSRTCIndFinal" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
@@ -2420,7 +2418,21 @@
   <!--TIPO COMPLEXO INFORMAÇÕES RELACIONADOS AOS TRIBUTOS IBSCBS-->
   <xs:complexType name="TCRTCInfoTributosIBSCBS">
     <xs:sequence>
-      <xs:element name="gIBSCBS" type="TCRTCInfoTributosSitClas">
+      <xs:element name="CST" type="TSRTCCodSitTrib">
+        <xs:annotation>
+          <xs:documentation>
+            Código de Situação Tributária do IBS e da CBS
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="cClassTrib" type="TSRTCCodClassTrib">
+        <xs:annotation>
+          <xs:documentation>
+            Código de Classificação Tributária do IBS e da CBS
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="gIBSCBS" type="TCRTCInfoTributosSitClas" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             Grupo de informações relacionadas ao IBS e à CBS
@@ -2624,20 +2636,6 @@
   <!--TIPO COMPLEXO INFORMAÇÕES RELACIONADOS AOS TRIBUTOS SITUACAO E CLASSIFICACAO IBSCBS-->
   <xs:complexType name="TCRTCInfoTributosSitClas">
     <xs:sequence>
-      <xs:element name="CST" type="TSRTCCodSitTrib">
-        <xs:annotation>
-          <xs:documentation>
-            Código de Situação Tributária do IBS e da CBS
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="cClassTrib" type="TSRTCCodClassTrib">
-        <xs:annotation>
-          <xs:documentation>
-            Código de Classificação Tributária do IBS e da CBS
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
       <xs:element name="cCredPres" type="TSRTCCodCredPres" minOccurs="0">
         <xs:annotation>
           <xs:documentation>

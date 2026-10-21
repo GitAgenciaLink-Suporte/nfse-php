@@ -211,9 +211,10 @@ class DpsXmlBuilder
             $cServ = $this->dom->createElement('cServ');
             $this->appendElement($cServ, 'cTribNac', $data->codigoServico->codigoTributacaoNacional);
             $this->appendElement($cServ, 'cTribMun', $data->codigoServico->codigoTributacaoMunicipal);
-            $this->appendElement($cServ, 'xDescServ', $data->codigoServico->descricaoServico);
+            // NT 009: cNBS e cIntContrib ficam antes de xDescServ.
             $this->appendElement($cServ, 'cNBS', $data->codigoServico->codigoNbs);
             $this->appendElement($cServ, 'cIntContrib', $data->codigoServico->codigoInternoContribuinte);
+            $this->appendElement($cServ, 'xDescServ', $data->codigoServico->descricaoServico);
             $serv->appendChild($cServ);
         }
 
@@ -459,9 +460,11 @@ class DpsXmlBuilder
         }
 
         $trib = $this->dom->createElement('trib');
+        // NT 009: CST e cClassTrib ficam em trib, antes de gIBSCBS.
+        $this->appendElement($trib, 'CST', $data->cst);
+        $this->appendElement($trib, 'cClassTrib', $data->codigoClassificacaoTributaria);
+
         $gIbscbs = $this->dom->createElement('gIBSCBS');
-        $this->appendElement($gIbscbs, 'CST', $data->cst);
-        $this->appendElement($gIbscbs, 'cClassTrib', $data->codigoClassificacaoTributaria);
         $this->appendElement($gIbscbs, 'cCredPres', $data->codigoCreditoPresumido);
 
         if ($data->cstTributacaoRegular) {
@@ -479,7 +482,9 @@ class DpsXmlBuilder
             $gIbscbs->appendChild($gDif);
         }
 
-        $trib->appendChild($gIbscbs);
+        if ($gIbscbs->hasChildNodes()) {
+            $trib->appendChild($gIbscbs);
+        }
         $valores->appendChild($trib);
         $ibscbs->appendChild($valores);
 
