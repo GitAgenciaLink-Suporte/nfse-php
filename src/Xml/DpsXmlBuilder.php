@@ -51,6 +51,10 @@ class DpsXmlBuilder
         $this->appendElement($parent, 'dCompet', $data->dataCompetencia);
         $this->appendElement($parent, 'tpEmit', $data->tipoEmitente);
         $this->appendElement($parent, 'cMotivoEmisTI', $data->motivoEmissaoTomadorIntermediario);
+        // NT 009: finNFSe saiu de IBSCBS e ficou em infDPS, antes de cLocEmi.
+        if ($data->ibscbs) {
+            $this->appendElement($parent, 'finNFSe', $data->ibscbs->finalidadeNfse);
+        }
         $this->appendElement($parent, 'chNFSeRej', $data->chaveNfseRejeitada);
         $this->appendElement($parent, 'cLocEmi', $data->codigoLocalEmissao);
 
@@ -412,7 +416,6 @@ class DpsXmlBuilder
     {
         $ibscbs = $this->dom->createElement('IBSCBS');
 
-        $this->appendElement($ibscbs, 'finNFSe', $data->finalidadeNfse);
         $this->appendElement($ibscbs, 'indFinal', $data->indicadorUsoConsumoPessoal);
         $this->appendElement($ibscbs, 'cIndOp', $data->codigoIndicadorOperacao);
         $this->appendElement($ibscbs, 'tpOper', $data->tipoOperacao);
@@ -429,20 +432,7 @@ class DpsXmlBuilder
         $this->appendElement($ibscbs, 'indDest', $data->indicadorDestinatario);
 
         if ($data->destinatario) {
-            $dest = $this->dom->createElement('dest');
-            $this->appendElement($dest, 'CNPJ', $data->destinatario->cnpj);
-            $this->appendElement($dest, 'CPF', $data->destinatario->cpf);
-            $this->appendElement($dest, 'NIF', $data->destinatario->nif);
-            $this->appendElement($dest, 'cNaoNIF', $data->destinatario->codigoNaoNif);
-            $this->appendElement($dest, 'xNome', $data->destinatario->nome);
-
-            if ($data->destinatario->endereco) {
-                $this->buildEndereco($dest, $data->destinatario->endereco);
-            }
-
-            $this->appendElement($dest, 'fone', $data->destinatario->telefone);
-            $this->appendElement($dest, 'email', $data->destinatario->email);
-            $ibscbs->appendChild($dest);
+            $this->buildDestinatario($ibscbs, $data->destinatario);
         }
 
         if ($data->imovel) {
@@ -536,6 +526,24 @@ class DpsXmlBuilder
         $this->appendElement($documentos, 'vlrReeRepRes', $data->valorReembolso !== null ? number_format($data->valorReembolso, 2, '.', '') : null);
 
         $parent->appendChild($documentos);
+    }
+
+    private function buildDestinatario(DOMElement $parent, TomadorData $data): void
+    {
+        $dest = $this->dom->createElement('dest');
+        $this->appendElement($dest, 'CNPJ', $data->cnpj);
+        $this->appendElement($dest, 'CPF', $data->cpf);
+        $this->appendElement($dest, 'NIF', $data->nif);
+        $this->appendElement($dest, 'cNaoNIF', $data->codigoNaoNif);
+        $this->appendElement($dest, 'xNome', $data->nome);
+
+        if ($data->endereco) {
+            $this->buildEndereco($dest, $data->endereco);
+        }
+
+        $this->appendElement($dest, 'fone', $data->telefone);
+        $this->appendElement($dest, 'email', $data->email);
+        $parent->appendChild($dest);
     }
 
     private function appendElement(DOMElement $parent, string $name, mixed $value): void

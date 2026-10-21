@@ -169,7 +169,8 @@ it('builds a schema valid dps with the minimum ibscbs group', function () {
     $xml = (new DpsXmlBuilder)->build($dps);
 
     expect(validarContraSchema($xml, 'DPS_v1.01.xsd'))->toBeTrue()
-        ->and($xml)->toContain('<IBSCBS><finNFSe>0</finNFSe><cIndOp>010101</cIndOp><indDest>0</indDest>')
+        ->and($xml)->toContain('<finNFSe>0</finNFSe><cLocEmi>3550308</cLocEmi>')
+        ->and($xml)->toContain('<IBSCBS><cIndOp>010101</cIndOp><indDest>0</indDest>')
         ->and($xml)->toContain('<gIBSCBS><CST>000</CST><cClassTrib>000001</cClassTrib></gIBSCBS>')
         ->and($xml)->not()->toContain('<gRefNFSe>')
         ->and($xml)->not()->toContain('<dest>')
