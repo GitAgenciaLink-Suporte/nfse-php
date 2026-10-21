@@ -18,6 +18,7 @@ yarn-error.log
 /.idea
 /.fleet
 /.vscode
+/nbproject
 
 # Code sniffer
 .php_cs
@@ -28,3 +29,4 @@ yarn-error.log
 phpunit.xml
 testbench.yaml
 /coverage
+/nbproject/private/

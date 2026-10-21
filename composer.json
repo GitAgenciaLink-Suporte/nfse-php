@@ -1,16 +1,21 @@
 {
-    "name": "nfse-nacional/nfse-php",
-    "description": "This is my package nfse",
+    "name": "gitagencialink-suporte/nfse-php",
+    "description": "Package nfse forked from nfse-nacional/nfse-php",
     "keywords": [
         "Nfse",
         "nfse"
     ],
-    "homepage": "https://github.com/nfse-nacional/nfse-php",
+    "homepage": "https://github.com/gitagencialink-suporte/nfse-php",
     "license": "MIT",
     "authors": [
         {
             "name": "a21ns1g4ts",
             "email": "a21ns1g4ts@gmail.com",
+            "role": "Developer"
+        }
+        ,{
+            "name": "Suporte AgenciaLink",
+            "email": "suporte@agencialink.com",
             "role": "Developer"
         }
     ],
